@@ -76,12 +76,12 @@ sp->_RX_ 0
 int foo (int i){
 }
 
-DES
-LDAA	i
-PSHA
-JSR		foo
-INS
-PULA
+	DES
+	LDAA	i
+	PSHA
+	JSR	foo
+	INS
+	PULA
 
 foo:
 	PSHA
@@ -111,14 +111,14 @@ foo:
 int foo (int i, int j, int *v){
 }
 
-LDDA 	i
-PSHA
-IDX		#v
-PSHX
-JSR foo
-INS
-INS
-INS
+	LDDA 	i
+	PSHA
+	IDX	#v
+	PSHX
+	JSR foo
+	INS
+	INS
+	INS
 
 foo:
 	PSHA
@@ -136,16 +136,16 @@ foo:
 	PULA
 	RTS
 
-	//*< PILA >*///
+//*< PILA >*///
 iX->	_RX_ 0
-		_RX_ 1
-		_RB_ 2
-		_RA_ 3
-		_RET 4
-		_RET 5
-		_*v_ 6
-		_*v_ 7
-		__i_ 8
+	_RX_ 1
+	_RB_ 2
+	_RA_ 3
+	_RET 4
+	_RET 5
+	_*v_ 6
+	_*v_ 7
+	__i_ 8
 
 ////////////////////////////////
 int foo (int i, int j, int *v){
@@ -172,18 +172,18 @@ foo:
 	INS
 	RTS
 
-	//*< PILA >*///
+//*< PILA >*///
 iX->	_RX_ 0
-		_RX_ 1
-		_RB_ 2
-		_RA_ 3
-		__i_ 4
-		__j_ 5
-		_RET 6
-		_RET 7
-		_*v_ 8
-		_*v_ 9
-		__i_ 10
+	_RX_ 1
+	_RB_ 2
+	_RA_ 3
+	__i_ 4
+	__j_ 5
+	_RET 6
+	_RET 7
+	_*v_ 8
+	_*v_ 9
+	__i_ 10
 ////////////////////////////////
 int foo (int i, int j, int *v){
 	int k, j; 		// volatile variables.
