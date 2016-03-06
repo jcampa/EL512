@@ -1,5 +1,5 @@
-
-for (int i = 0; i < l; i++) {
+unsigned int i;
+for (i = 0; i < l; i++) {
   /* code */
 }
 
