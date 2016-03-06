@@ -113,12 +113,15 @@ int foo (int i, int j, int *v){
 
 	LDAA 	i
 	PSHA
+	LDAA 	j
+	PSHA
 	LDX	#v
 	PSHX
 	JSR foo
-	INS
-	INS
-	INS
+        INS             // dealocate v
+        INS             // dealocate v
+        INS             // dealocate j
+        INS             // dealocate i
 
 foo:
 	PSHA
