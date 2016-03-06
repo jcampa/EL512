@@ -21,7 +21,7 @@ void foo (int i){(
 	LDAA	i
 	PUSH	A
 	JSR 	foo
-	INS				//	increment Stack Pointer to i, and mark it as writtable.
+	INS			//	increment Stack Pointer to i, and mark it as writtable.
 
 foo:
 	PSHA			// 	empilo
