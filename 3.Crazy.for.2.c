@@ -22,12 +22,12 @@ L2:
         LDAA    i
         ADDA    l
         CMPA    j //A –M
-        BGE     <L1> // branch if >= zero
+        BGE     L1 // branch if >= zero
 /* if  i + l - 3 <= 0*/
         LDAA    l
         ADDA    i
         CMPA    #3
-        BLE     <L3>
+        BLE     L3
 /* i = l + 3;*/
         LDAA    l
         ADDA    #3
@@ -43,5 +43,5 @@ L4:
         LDAA    i
         ADDA    j
         STAA    i
-        BRA     <L2> // cuando la distancia a la que va a saltar es menor a 127
+        BRA     L2 // cuando la distancia a la que va a saltar es menor a 127
 L1:
