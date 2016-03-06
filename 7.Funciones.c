@@ -32,7 +32,7 @@ foo:
 	PULX			//	saco X de la pila
 	PULB			// 	saco B de la pila
 	PULA			//	saco A de la pila
-	RST				// 	return
+	RST			// 	return
 
 //*< PILA >*///
 sp ->	____
