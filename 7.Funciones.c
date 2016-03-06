@@ -4,7 +4,7 @@ void foo(){
 }
 
 JSR foo			//Jump to Subroutine
-						// guarda la direccion de retorno en la pila, y luego salta a la direccion dela subturina.
+			// guarda la direccion de retorno en la pila, y luego salta a la direccion dela subturina.
 
 foo:
 	PSHA	// 	enpila el registro A
