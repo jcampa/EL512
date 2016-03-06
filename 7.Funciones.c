@@ -28,7 +28,7 @@ foo:
 	PSHB			//	empilo B
 	PSHX			// 	empilo x
 	TSX			//	Transfer Stack Pointer to X
-	LDDA	6,x		// 	caga en A lo q esta en x+6, osea i.
+	LDAA	6,x		// 	caga en A lo q esta en x+6, osea i.
 	//
 	PULX			//	saco X de la pila
 	PULB			// 	saco B de la pila
@@ -111,7 +111,7 @@ foo:
 int foo (int i, int j, int *v){
 }
 
-	LDDA 	i
+	LDAA 	i
 	PSHA
 	LDX	#v
 	PSHX
