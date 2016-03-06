@@ -29,6 +29,7 @@ foo:
 	PSHX			// 	empilo x
 	TSX			//	Transfer Stack Pointer to X
 	LDDA	6,x		// 	caga en A lo q esta en x+6, osea i.
+	//
 	PULX			//	saco X de la pila
 	PULB			// 	saco B de la pila
 	PULA			//	saco A de la pila
