@@ -25,7 +25,7 @@ CLR i;  // inicializo i = 0
 label_for:   
         LDDA i; // muevo la variable i a registro A
         CMPA l // comparo el registro A con la memoria l
-        BHS <labbel> // salta a la etiquta // ale del for.. SIN SIGNO. con signo se utiliza (BGE)
+        BHS <labbel> // salta a la etiquta // sale del for.. SIN SIGNO. con signo se utiliza (BGE)
         /* code */
         INC i   // incremento la variable i del registro A
         BRA <labere_for>  //
