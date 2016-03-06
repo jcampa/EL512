@@ -57,7 +57,7 @@ foo:
 	PSHB
 	PSHX
 	TSX
-	//--- magia		//calculo el retorno y lo guardo en el registro A
+	//			//calculo el retorno y lo guardo en el registro A
 	STAA 6,x		//Guardo el registro a en la pila, en la posicion que reserve antes
 	PULX
 	PULB
