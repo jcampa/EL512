@@ -4,7 +4,7 @@ void foo(){
 }
 
 JSR foo			//Jump to Subroutine
-				// guarda la direccion de retorno en la pila, y luego salta a la direccion dela subturina.
+			// guarda la direccion de retorno en la pila, y luego salta a la direccion dela subturina.
 
 foo:
 	PSHA	// 	enpila el registro A
@@ -12,7 +12,7 @@ foo:
 
 	PULB	// 	saca A de la pila
 	PULA	//	saca B de la pila
-	RTS		// 	return from subroutine
+	RTS	// 	return from subroutine
 
 /////////////////////////////////////////////
 void foo (int i){(
@@ -48,7 +48,7 @@ iX ->____
 int foo (){
 }
 
-DES			//Decrement Stack Pointer
+DES		//Decrement Stack Pointer
 JSR foo
 PULA		// lee el valor que guardo la funcion foo
 
@@ -89,7 +89,7 @@ foo:
 	PSHX
 	TSX
 	LDAA 6,x
-	//--- magia
+	//--- magia negra
 	//--- 			//calculo el retorno y lo guardo en el registro A
 	STAA 7,x		//Guardo el registro a en la pila, en la posicion que reserve antes
 	PULX
@@ -149,9 +149,9 @@ iX->	_RX_ 0
 
 ////////////////////////////////
 int foo (int i, int j, int *v){
-	int k, j; 		// volatile variables.
+	int k, j;  // volatile variables.
 }
-//la funcion principal es la misma que antes
+// la funcion principal es la misma que antes
 
 foo:
 	DES
@@ -197,11 +197,8 @@ foo:
 L1:		TIX		// imaginary funcition that saves the instruction pointer on x
 		BRA	L2
 		//
-		//
 L2
 		LDAA 4,x
 
-// TRANSPARENCIA, reentrante.
-
-//Tarea:
+// TRANSPARENCIA atp.
 	
