@@ -27,7 +27,7 @@ foo:
 	PSHA			// 	empilo
 	PSHB			//	empilo B
 	PSHX			// 	empilo x
-	TSX				//	Transfer Stack Pointer to X
+	TSX			//	Transfer Stack Pointer to X
 	LDDA	6,x		// 	caga en A lo q esta en x+6, osea i.
 	PULX			//	saco X de la pila
 	PULB			// 	saco B de la pila
@@ -58,7 +58,7 @@ foo:
 	PSHX
 	TSX
 	//--- magia
-	//--- 			//calculo el retorno y lo guardo en el registro A
+	//---			/calculo el retorno y lo guardo en el registro A
 	STAA 6,x		//Guardo el registro a en la pila, en la posicion que reserve antes
 	PULX
 	PULB
