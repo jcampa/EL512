@@ -33,17 +33,17 @@ foo:
 	PULB			// 	saco B de la pila
 	PULA			//	saco A de la pila
 	RST				// 	return
-///
-///*< PILA >*///
-sp ->____
-iX ->____
-	 _RX_ 0
-	 _RX_ 1
-	 _RB_ 2
-	 _RA_ 3
-	 _RET 4
-	 _RET 5
-	 __i_ 6
+
+//*< PILA >*///
+sp ->	____
+iX ->	____
+	_RX_ 0
+	_RX_ 1
+	_RB_ 2
+	_RA_ 3
+	_RET 4
+	_RET 5
+	__i_ 6
 //////////////////
 int foo (){
 }
@@ -65,7 +65,7 @@ foo:
 	PULA
 	RST
 ///*< PILA >*///
-sp->_RX_ 0
+sp->	_RX_ 0
 	_RX_ 1
 	_RB_ 2
 	_RA_ 3
