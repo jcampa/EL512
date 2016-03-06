@@ -19,7 +19,7 @@ void foo (int i){(
 }
 
 	LDAA	i
-	PUSH	A
+	PSHA
 	JSR 	foo
 	INS			//	increment Stack Pointer to i, and mark it as writtable.
 
