@@ -13,10 +13,10 @@ for (i = 0; i < l; i++) {
 
         CRL     s         // s = 0
         CRL     i         // i = 0
-<L2>:
+L2:
         LDAA    i         // cargar la variable i al registro A
         CMPA    l         // i - l
-        BHS     <L1>      // i - l >= 0 ?
+        BHS     L1      // i - l >= 0 ?
 
         LDX     v         // cargar el vector v
         LDAB    i         // cargarmos la variable i al registro B
@@ -26,8 +26,8 @@ for (i = 0; i < l; i++) {
         STAA    s         // guardamos el registro A en la variale s
 
         inc     i         // i++
-        BRA     <L2>      // volvemos al for
-<L1>:
+        BRA     L2      // volvemos al for
+L1:
 /* <code here> */
 //  K&R
 //  kernigan and richi
