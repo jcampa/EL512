@@ -18,10 +18,10 @@ foo:
 void foo (int i){(
 }
 
-LDAA	i
-PUSH	A
-JSR 	foo
-INS				//	increment Stack Pointer to i, and mark it as writtable.
+	LDAA	i
+	PUSH	A
+	JSR 	foo
+	INS				//	increment Stack Pointer to i, and mark it as writtable.
 
 foo:
 	PSHA			// 	empilo
@@ -48,9 +48,9 @@ iX ->____
 int foo (){
 }
 
-DES		//Decrement Stack Pointer
-JSR foo
-PULA		// lee el valor que guardo la funcion foo
+	DES		//Decrement Stack Pointer
+	JSR foo
+	PULA		// lee el valor que guardo la funcion foo
 
 foo:
 	PSHA
