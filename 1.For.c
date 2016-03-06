@@ -23,7 +23,7 @@ i - l >= 0
 //Equivaletne en ascembler
 CLR i;  // inicializo i = 0
 label_for:   
-        LDDA i; // muevo la variable i a registro A
+        LDDA i; // cargo la variable i a registro A
         CMPA l // comparo el registro A con la memoria l
         BHS <labbel> // salta a la etiquta // sale del for.. SIN SIGNO. con signo se utiliza (BGE)
         /* code */
