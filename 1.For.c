@@ -22,14 +22,14 @@ i - l >= 0
 
 //Equivaletne en ascembler
 CLR i;  // inicializo i = 0
-labere for:   LDDA i; // muevo la variable i a registro A
+label_for:   LDDA i; // muevo la variable i a registro A
               CMPA l // comparo el registro A con la memoria l
-              BSH <labbel here> // salta a la etiquta // ale del for.. SIN SIGNO. con signo se utiliza (BGE)
+              BSH <labbel> // salta a la etiquta // ale del for.. SIN SIGNO. con signo se utiliza (BGE)
               /* code */
               INC i   // incremento la variable i del registro A
-              BRA <labere for>  //
+              BRA <labere_for>  //
 
-labbel here:
+labbel:
 /* code */
 
 // [para pasar a complemento a 2 lo paso a complemento a 1 y le sumo 1]
