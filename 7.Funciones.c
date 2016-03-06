@@ -113,7 +113,7 @@ int foo (int i, int j, int *v){
 
 	LDDA 	i
 	PSHA
-	IDX	#v
+	LDX	#v
 	PSHX
 	JSR foo
 	INS
