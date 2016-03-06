@@ -27,7 +27,7 @@ label_for:
         CMPA l // comparo el registro A con la memoria l
         BHS <labbel> // salta a la etiquta // sale del for.. SIN SIGNO. con signo se utiliza (BGE)
         /* code */
-        INC i   // incremento la variable i del registro A
+        INC i   // incremento la variable i en memoria
         BRA <labere_for>  //
 
 labbel:
