@@ -25,7 +25,7 @@ L2:
 /* if  l - i >= 0*/
         LDAA    l
         CMPA    i
-        BLE     <L3>
+        BLE     L3
         
 /* l = i - l*/
         LDAA    i
