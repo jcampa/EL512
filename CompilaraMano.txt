@@ -1,0 +1,859 @@
+COMPILAR A MANO	
+
+
+void bubble(int n, int *v){
+  int x,y,t;
+
+  for(x=0; x<n; x++){
+    for(y=0; y<n-1; y++){
+      if(v[y]>v[y+1]){
+        t = v[y+1];
+        v[y+1] = v[y];
+        v[y] = t;
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////////////// 
+main:
+        LDAA    n
+        PSHA
+        LDX     #v
+        PSHX
+        JSR     bubble
+        INS             // dealocate v
+        INS             // dealocate v
+        INS             // dealocate n
+
+bubble:
+        DES             // stak x
+        DES             // stak y
+        DES             // stack t
+        PSHA
+        PSHB
+        PSHX
+        TSX              // set X to point to the top byte of the stack
+        // part_1
+        TSX             // IX -> SP     Point to the top of the stack
+        PULX
+        PULB
+        PULA
+        INS             // dealocate t
+        INS             // dealocate y
+        INS             // dealocate x
+        RST
+
+
+// part_1
+        LDAA    6, X        	// 6,X is the X variable
+        CLRA                		// clear acumulator A
+        STAA    6, X
+for_X:
+        LDAA    6, X
+        CMPA    11, X       	// compare aagainst n
+        BGE     end_for_X
+        // part_2
+        TSX                 		// Point to the top of the stack
+        INC     6, X
+        BRA     for_X
+end_for_X:
+// end_part_1
+
+//part_2
+        LDAA    5, X        	// 5, X is the 'y' variable
+        CLRA                		// clear acumulator A
+        STAA    5, X        	// y = 0, on the stak
+for_y:
+        LDAA    5, X        	// load y
+        INCA                		// y + 1 -> equivalent to n-1
+        CMPA    11, X       	// compare aagainst n
+        BGE     end_for_y
+        // part_3
+        TSX                 		// Point to the top of the stack
+        INC     5, X        		// y++, on the stack
+        BRA     for_y       		// loop for_y
+end_for_y:
+// end part_2
+
+//part_3
+        LDAB    5, X        	// B = y
+        LDX     9, X        		// X = v
+        ABX                 		// X = v + y
+        LDAA    0, X        	// A = v[y]
+        CMPA    1, X        	// compare with next element
+        BLE     end_if      	// ? <= 0
+// swap v[y] <-> v[y+1]
+        //t = v[y+1];
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    5, X            	// B = y
+        INCB                   	// B = ++y;
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + y + 1
+        LDAB                    	// B = v[y + 1]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        STAB    4, X            	// t = v[y+1]
+        //v[y+1] = v[y];
+        LDAB    5, X            	// B = y
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + y
+        LDAA    0, X            	// A = v[y]
+        STAA    1, X            	// v[y+1] = v[y]
+        // v[y] = t;
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAA    4, X            	// A = t
+        LDAB    5, X            	// B = y
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + y
+        STAA    0, X            	// v[y] = t
+end_if:
+//end part_3
+
+
+//*< PILA bubble >*///
+iX->    	|_RX_|   0
+        	|_RX_|   1
+        	|_RB_|   2
+        	|_RA_|   3
+       	|__t__|   4
+        	|__y_|    5
+        	|__x_|    6
+        	|_RET|   7
+        	|_RET|   8
+        	|_*v__|   9
+        	|_*v__| 10
+        	|__n__| 11
+
+ 
+
+  void insertion(int n, int *v){
+  int x,y,t,m;
+  for(x=0; x<n; x++){
+    m = x;
+    for(y=x; y<n; y++){
+      if(v[m]>v[y]){
+        m = y;
+      }
+    }
+
+    t = v[x];
+    v[x] = v[m];
+    v[m] = t;
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////
+
+main:
+        LDAA    n
+        PSHA
+        LDX     #v
+        PSHX
+        JSR     insertion
+        INS             // dealocate v
+        INS             // dealocate v
+        INS             // dealocate n
+
+insertion:
+        DES             // stack x
+        DES             // stack y
+        DES             // stack t
+        DES             // stack m        
+        PSHA
+        PSHB
+        PSHX
+        TSX             // set X to point to the top byte of the stack
+        // part_1
+        PULX
+        PULB
+        PULA
+        INS             // dealocate m
+        INS             // dealocate t
+        INS             // dealocate y
+        INS             // dealocate x
+
+// part_1
+        LDAA    7, X            	// A = x
+        CLRA                   	// A = 0
+        STAA    7, X           	// x = 0
+for_X:
+        LDAA    7, X            	// A = x
+        STAA    4, X            	// m = x 
+        CMPA    12, X           	// x - n
+        BGE     end_for_X       	// ? >= 0
+        // part_2
+        TSX                     	// Point to the top of the stack
+        INC     7, X            	// x++
+        BRA     for_X           	// loop x
+// swap v[x] <-> v[m]
+        //t = v[x]
+        TSX                    	 	// IX -> SP     Point to the top of the stack
+        LDAB    7, X            	// B = x
+        LDX    10, X            	// X = v
+        ABX                     	// X = v + x
+        LDAB    0, X               	// B = v[x]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        STAB    5, X            	// t = v[x]
+        //v[x] = v[m];
+        LDAB    4, X            	// B = m
+        LDX    10, X            	// X = v
+        ABX                     	// X = v + m
+        LDAA    0, X            	// *A = v[m] 
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    7, X            	// B = x
+        LDX    10, X           	// X = v
+        ABX                     	// X = v + x
+        STAA    0, X            	// v[x] = v[m]
+        // v[m] = t;
+        TSX                    	 	// IX -> SP     Point to the top of the stack
+        LDAA    5, X            	// A = t
+        LDAB    4, X            	// B = m
+        LDX    10, X            	// X = v
+        ABX                     	// X = v + m
+        STAA    0, X            	// v[m] = t
+end_for_X:
+// end part_1
+
+// part_2
+        LDAA    7, X            	// A = x
+        STAA    6, X            	// y = x
+for_y:
+        LDAA    6, X            	// A = y
+        CMPA    12, X           	// A - n
+        BGE     end_for_y       	// ? >= 0
+        // part_3
+        TSX                     	// Point to the top of the stack
+        INC     6, X            	// x++
+        BRA     for_y           	// go to for_y:
+end_for_y:
+// end_part_2
+
+// part_3
+        TSX
+        LDAB    4, X            	// B = m
+        LDX    10, X            	// X = v
+        ABX                     	// X = v + m
+        LDAA    0, X            	// A = v[m]
+        TSX                     	// Point to the top of the stack
+        LDAB    6, X            	// A = y
+        LDX    10, X            	// X = v
+        ABX                     	// X = v + y
+        CMPA    0, X            	// v[m] - v[y]
+        BLE     end_if          	// ? <=0
+        TSX
+        LDAA    6, X            	// A = y
+        STAA    4, X            	// m = y
+end_if:
+// end_part_3
+
+
+//*< PILA  insertion>*///
+iX->     |_RX_|  0
+        	|_RX_|  1
+        	|_RB_|  2
+        	|_RA_|  3
+        	|__m_|  4
+       	|__t__|  5
+        	|__y__| 6
+        	|__x__| 7
+        	|_RET|  8
+        	|_RET|  9
+        	|_*v__| 10
+        	|_*v__| 11
+        	|__n__|12
+void quicksort(int *A, int lo, int hi){
+  int p;
+  if (lo < hi){
+    p = partition(A, lo, hi);
+    quicksort(A, lo, p – 1);
+    quicksort(A, p + 1, hi);
+  }
+}
+
+int partition(int *A, int lo, int hi){
+  int p,i,t;
+  p = A[hi];
+  i = lo;
+
+  for (j = lo; j < hi; j++){
+    if (A[j] <= p) {
+      t = A[i];
+      A[i] = A[j];
+      A[j] = t;
+      i = i + 1
+  }
+
+  t = A[i];
+  A[i] = A[hi];
+  A[hi] = t;
+
+  return i;
+}
+
+///////////////////////////////////////////////////////////////////////
+main:
+        LDAA    hi
+        PSHA
+        LDAA    lo
+        PSHA
+        LDX     #A
+        PSHX
+        JSR     quicksort
+
+        INS             // dealocate A
+        INS             // dealocate A
+        INS             // dealocate lo
+        INS             // dealocate hi
+
+quicksort:
+        DES             // stak p
+        PSHA
+        PSHB
+        PSHX
+        TSX             // IX -> SP     Point to the top of the stack
+        // part_1
+        PULX
+        PULB
+        PULA
+        INS             // dealocate p
+        RST
+
+// part_1
+        LDAA     9, X   	// A = lo
+        CMPA    10, X   	// lo - hi
+        BGE     end_if  	// ? >= 0
+
+        //p = partition(A, lo, hi);
+        DES             	// save space for return value
+        LDAA   10, X    	// A = hi
+        PSHA            	// stack hi
+        LDAA    9, X    	// A = lo
+        PSHA            	// stack lo
+        LDD     7, X    	// D = A
+        PSHB            	// stack vector A again
+        PSHA		// stack vector A again
+        JSR     partition 	//    return addres of partition -> 4, x
+        INS        		// edalocate A
+        INS        		// edalocate A
+        INS        		// edalocatelo
+        INS        		// edalocate hi
+        PULA            	// get return value
+        STAA    4, X    	// p = partition(_arg_)
+        
+        //quicksort(A, lo, p – 1);
+        LDAA    4, X    	// A = p
+        DECA            	// A = p - 1
+        PSHA            	// stak (p - 1) as 'hi'
+        LDAA    9, X    	// A = lo
+        PSHA            	// stak 'lo' as lo
+        LDX     7, X    	// X = A
+        PSHX            	// stack vector A again
+        JSR     quicksort
+        //quicksort(A, p + 1, hi);
+        LDAA   10, X    	// A = hi 
+        PSHA            	// stack 'hi' as hi
+        LDAA    4, X    	// A = p
+        DECA            	// A = p - 1
+        PSHA            	// stack (p - 1) as lo
+        LDX     7, X    	// X = A
+        PSHX            	// stack vector A
+        JSR     quicksort
+end_if:
+// end_part_1
+        
+partition:
+        DES             	// p
+        DES             	// i
+        DES             	// t
+        PSHA		// stack A 
+        PSHB            	// stack B
+        PSHX            	// stack X
+        TSX             	// IX -> SP     Point to the top of the stack
+        // part_2
+        TSX             	// IX -> SP     Point to the top of the stack
+        PULX
+        PULB
+        PULA
+        INS             	// dealocate t
+        INS             	// dealocate i
+        INS             	// dealocate p
+        LDAA    i, X    // A = i
+        STAA   13, X    // return i
+        RST
+
+// part_2
+        LDAB   12, X		// B = hi
+        LDX     9, X           	// X = v
+        ABX                     	// X = v +hi
+        LDAA    0, X            	// A = v[hi]
+        STAA   12, X            	// p = A[hi]
+        LDAA   11, X            	// A = lo
+        STAA    5, X            	// i = lo
+        // part_3
+// swap A[i] <-> A[hi]
+        // t = A[i]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + i
+        LDAB    0, X            	// B = v[i]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        STAB    4, X            	// t = v[i]
+        // A[i] = A[hi];
+        LDAB   12, X            	// B = hi
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + hi
+        LDAA    0, X            	// A = v[hi] 
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + i
+        STAA    0, X            	// v[i] = v[hi]
+        // A[hi] = t;
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAA    4, X            	// A = t
+        LDAB   12, X            	// B = hi
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + hi
+        STAA    0, X            	// v[hi] = t
+// end_part_2
+
+//part_3
+        LDAA   11, X           	// A = lo
+        STAA   j                	// j = lo
+for_j:
+        LDAA    j               	// A = j
+        CMPA    12, X          	// j - hi
+        BGE     end_for_j       	// ? >= 0
+        // part_4  // if (A[j] <= p)
+        TSX                     	// Point to the top of the stack
+        INC     j               		// j++
+        BRA     for_j        	   	// loop for
+end_for_j
+// end_part_3
+
+// part_4
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    j               	// B = j
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + j
+        LDAA    0, X            	// A = v[j]
+        TSX                     	// Point to the top of the stack
+        CMPA    6, X            	// v[j] - p
+        BGT     end_if          	// ? > 0
+        // part_5
+end_if
+// end_part_4
+
+// part_5
+//swap A[i] <-> A[j]
+        // t = A[i]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + i
+        LDAB    0, X            	// B = v[i]
+        TSX                     	// IX -> SP     Point to the top of the stack
+        STAB    4, X            	// t = v[i]
+        // A[i] = A[j];
+        LDAB    j               	// B = j
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + j
+        LDAA    0, X            	// A = v[j] 
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX     9, X            	// X = v
+        ABX                    	 	// X = v + i
+        STAA    0, X            	// v[i] = v[j]
+        // A[j] = t;
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAA    4, X            	// A = t
+        LDAB    j               	// B = j
+        LDX     9, X            	// X = v
+        ABX                     	// X = v + j
+        STAA    0, X            	// v[j] = t
+        //i=i+1
+        TSX                     	// IX -> SP     Point to the top of the stack
+        INC     5, X            	// i = i + 1
+// end_part_5
+
+
+//*< Quicksort PILA >*/// 
+iX->    |_RX_| 0
+        |_RX_| 1
+        |_RB_| 2
+        |_RA_| 3
+        |__p_| 4
+        |_RET| 5
+        |_RET| 6
+        |_*A_| 7
+        |_*A_| 8
+        |_lo_| 9
+        |_hi_| 10
+
+//*< partition PILA >*/// 
+iX->    |_RX_| 0
+        |_RX_| 1
+        |_RB_| 2
+        |_RA_| 3
+        |__t_| 4
+        |__i_| 5
+        |__p_| 6
+        |_RET| 7
+        |_RET| 8
+        |_*A_| 9
+        |_*A_| 10
+        |_lo_| 11
+        |_hi_| 12
+        |____| 13
+        void TopDownSplitMerge(int *A, int iBegin, int iEnd, int *B){
+  int iMiddle;
+
+  if(iEnd - iBegin < 2){
+    return;
+  }
+
+  iMiddle = (iEnd + iBegin) / 2;
+  TopDownSplitMerge(A, iBegin,  iMiddle, B);
+  TopDownSplitMerge(A, iMiddle,    iEnd, B);
+  TopDownMerge(A, iBegin, iMiddle, iEnd, B);
+  CopyArray(B, iBegin, iEnd, A);
+}
+
+void TopDownMerge(int *A, int iBegin, int iMiddle, int iEnd, int *B){
+  int i, j;
+  i = iBegin;
+  j = iMiddle;
+
+  for (k = iBegin; k < iEnd; k++) {
+    if (i < iMiddle && (j >= iEnd || A[i] <= A[j])) {
+      B[k] = A[i];
+      i = i + 1;
+    } else {
+      B[k] = A[j];
+      j = j + 1;
+    }
+  } 
+}
+
+void CopyArray(int *B, int iBegin, int iEnd, int *A){
+  int k;
+
+  for(k = iBegin; k < iEnd; k++){
+    A[k] = B[k];
+  }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+main:
+        LDX     #A
+        PSHX
+        LDAA    iBegin
+        PSHA
+        LDAA    iEnd
+        PSHA
+        LDX     #B
+        PSHX
+        JSR     TopDownSplitMerge
+        INS             // dealocate B
+        INS             // dealocate B
+        INS             // dealocate iEnd
+        INS             // dealocate iBegin
+        INS             // dealocate A
+        INS             // dealocate A
+
+TopDownSplitMerge:
+        DES             // stak iMiddle
+        PSHA
+        PSHB
+        PSHX
+        TSX             // IX -> SP     Point to the top of the stack
+        // part_1
+        PULX
+        PULB
+        PULA
+        INS             // dealocate iMiddle
+        RST
+
+// part_1
+        //iEnd - iBegin < 2
+        LDAA    9, X    		// A = iEnd
+        DECA                    	// A = iEnd - 1
+        DECA                    	// A = iEnd - 2
+        CMPA   10, X            	// iend - 2 - iBegin
+        BGE     finish          	// >= 0 ?
+        //iMiddle = (iEnd + iBegin) / 2;
+        LDAA    9, X            	// A = iEnd
+        ADDA   10, X            	// A = iEnd+ iBegin
+        ASRA                    	// A >> 1 or A /= 2
+        STAA    4, X            	// iMed = A
+        //TopDownSplitMerge(A, iBegin,  iMiddle, B);
+        LDD    11, X            	// D = vector A
+//        PSHD
+        PSHB
+        PSHA
+        LDAA   10, X            	// X = Beggin
+        PSHA
+        LDAA    4, X            	// X = iMiddle
+        PSHA
+        LDD     7, X            	// D = Vector B
+//        PSHX
+        PSHB
+        PSHA
+        JSR     TopDownSplitMerge
+        INS                     		// dealocate B
+        INS                     		// dealocate B
+        INS                     		// dealocate iMeddle
+        INS                     		// dealocate iBegin
+        INS                     		// dealocate A
+        INS                     		// dealocate A
+        //TopDownSplitMerge(A, iMiddle,    iEnd, B);
+        LDD    11, X            	// D = vector A
+        //PSHD
+        PSHB
+        PSHA
+        LDAA    4, X            	// X = iMeddle
+        PSHA
+        LDAA    9, X            	// X = iEnd
+        PSHA
+        LDX     7, X            	// X = Vector B
+        PSHX
+        JSR     TopDownSplitMerge
+        INS                     		// dealocate B
+        INS                     		// dealocate B
+        INS                     		// dealocate iEnd
+        INS                     		// dealocate iMeddle
+        INS                    		// dealocate A
+        INS                     		// dealocate A
+        //opDownMerge(A, iBegin, iMiddle, iEnd, B);
+        LDD    11, X            	// D = vector A
+        //PSHD
+        PSHB
+        PSHA
+        LDAA   10, X            	// X = Beggin
+        PSHA
+        LDAA    4, X            	// X = iMeddle
+        PSHA
+        LDAA    9, X            	// X = iEnd
+        PSHA
+        LDD     7, X            	// D = Vector B
+//        PSHD
+        PSHB
+        PSHA
+        JSR     TopDownMerge
+        INS                     		// dealocate B
+        INS                     		// dealocate B
+        INS                     		// dealocate iEnd
+        INS                     		// dealocate iMeddle
+        INS                     		// dealocate iBeggin
+        INS                     		// dealocate A
+        INS                     		// dealocate A
+        //CopyArray(B, iBegin, iEnd, A);
+        LDD     7, X            	// D = Vector B
+//        PSHD
+        PSHB
+        PSHA
+        LDAA   10, X            	// X = Beggin
+        PSHA
+        LDAA    9, X            	// X = iEnd
+        PSHA
+        LDD    11, X            	// D = vector A
+//        PSHD
+        PSHB
+        PSHA
+        JSR     CopyArray
+        INS                     		// dealocate A
+        INS                     		// dealocate A
+        INS                     		// dealocate iEnd
+        INS                     		// dealocate iBeggin
+        INS                    		// dealocate B
+        INS                     		// dealocate B
+finish
+// end_part_1
+
+TopDownMerge:
+        DES             // stak i
+        DES             // stack j
+        PSHA
+        PSHB
+        PSHX
+        TSX             // IX -> SP     Point to the top of the stack
+        // part_2
+        PULX
+        PULB
+        PULA
+        INS             // dealocate j
+        INS             // dealocate i
+        RST
+
+// part_2
+        LDAA   12, X    		// A = iBegin
+        STAA    5, X    		// i = iBegin
+        LDAA   11, X    		// A = iMiddle
+        STAA    4, X    		// j = iMedldle
+        //part_3
+// end_part_2
+
+// part_3
+        LDAA    12, X           	// A = iBegin
+        STAA    k               	// k = iBegin
+for_X:
+        LDAA    k               	// A = k
+        CMPA    10, X           	// k - iEnd
+        BGE     end_for_X       	// ? >= 0
+        // part_4
+        TSX                     	// Point to the top of the stack
+        INC     k               	// k++
+        BRA     for_X           	// loop x
+end_for_X
+// end_part_3
+
+// part_4 
+//if (i < iMiddle && (j >= iEnd || A[i] <= A[j])) {
+        LDAA    5, X            	// A = i
+        CMPA   11, X            	// i - iMiddle
+        BGE    ELSE             	// >= 0 ?
+
+        LDAA    4, X            	// A = j
+        CMPA   10, X            	// j - iEnd
+        BGE    IN_IF            	// >= 0 ?
+
+        TSX                     	// Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX    13, X            	// X = v
+        ABX                     	// X = v + i
+        LDAA    0, X            	// A = v[i]
+        TSX                     	// Point to the top of the stack
+        LDAB    4, X            	// A = j
+        LDX    13, X            	// X = v
+        ABX                     	// X = v + j
+        CMPA    0, X            	// v[i] - v[j]
+        BLE    IN_IF            	// <= 0 ?
+        BRA    ELSE
+
+IN_IF:
+        //B[k] = A[i];
+        TSX                     	// Point to the top of the stack
+        LDAB    5, X            	// B = i
+        LDX    13, X            	// X = A
+        ABX                     	// X = A + i
+        LDAA    0, X            	// A = A[i] 
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    k               	// B = k
+        LDX     8, X            	// X = B
+        ABX                     	// X = B + k
+        STAA    0, X            	// B[k] = A[i]
+        // i = i + 1
+        TSX                     	// IX -> SP     Point to the top of the stack
+        INC     5, X            	// i = i + 1
+        BRA    END_IF
+ELSE:
+        //B[k] = A[j];
+        TSX                     	// Point to the top of the stack
+        LDAB    4, X            	// B = j
+        LDX    13, X            	// X = A
+        ABX                     	// X = A + j
+        LDAA    0, X            	// A = A[j] 
+        TSX                    	 	// IX -> SP     Point to the top of the stack
+        LDAB    k               	// B = k
+        LDX     8, X            	// X = B
+        ABX                     	// X = B + k
+        STAA    0, X            	// B[k] = A[i]
+        // i = i + 1
+        TSX                     	// IX -> SP     Point to the top of the stack
+        INC     4, X           	// j = j + 1
+END_IF:
+// end_part_4
+
+CopyArray:
+        DES             		// stak k
+        PSHA
+        PSHB
+        PSHX
+        TSX             		// IX -> SP     Point to the top of the stack
+        // part_5	
+        PULX
+        PULB
+        PULA
+        INS             		// dealocate k
+        RST
+
+// part_5
+        LDAA    10, X           	// A = iBegin
+        STAA     4, X           	// k = iBegin
+for_X:
+        LDAA   10, X            	// A = k
+        CMPA    9, X           	// k - iEnd
+        BGE     end_for_X       	// >= 0 ?
+        // part_6
+        TSX                     	// Point to the top of the stack
+        INC     10, X           	// iBeging++
+        BRA     for_X
+end_for_X:
+// end_part_5
+
+// part_6
+        // A[k] = B[k]
+        TSX                     	// Point to the top of the stack
+        LDAB    4, X            	// B = k
+        LDX    11, X            	// X = A
+        ABX                     	// X = A + k
+        LDAA    0, X            	// A = A[k] 
+        TSX                     	// IX -> SP     Point to the top of the stack
+        LDAB    4, X            	// B = k
+        LDX     7, X            	// X = B
+        ABX                     	// X = B + k
+        STAA    0, X            	// B[k] = A[i]
+// end_part_6
+
+
+//*< TopDownSplitMerge STACK >*/// 
+iX->    	|__RX__|  0
+        	|__RX__|  1
+        	|__RB__|  2
+        	|__RA__|  3
+        	|__iMed|   4
+        	|__RET_|  5
+        	|__RET_|  6
+        	|__*B__|   7
+        	|__*B__|   8
+        	|_*End_|   9
+        	|_iBeg_| 10
+       	|__*A__| 11
+        	|__*A__| 12
+
+
+//*< TopDownMerge STACK >*/// 
+iX->    	|__RX__|  0
+        	|__RX__|  1
+        	|__RB__|  2
+        	|__RA__|  3 
+        	|___j___|  4
+        	|___i___|  5
+        	|__RET_|  6
+        	|__RET_|  7
+        	|__*B__ |  8
+        	|__*B__ |  9
+        	|_iEnd_ | 10
+        	|_iMid_ |  11
+        	|_iBeg_|  12
+       	|__*A__| 13
+        	|__*A__| 14
+
+
+//*< CopyArray STACK >*/// 
+iX->    	|__RX__| 0
+        	|__RX__| 1
+        	|__RB__| 2
+        	|__RA__| 3
+        	|___k__ | 4
+        	|__RET_| 5
+        	|__RET_| 6
+        	|__*B__ | 7
+        	|__*B__ | 8
+        	|_iEnd_ | 9
+        	|_iBeg_ | 10
+        	|__*A__| 11
+        	|__*A__| 12
