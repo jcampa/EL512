@@ -81,7 +81,7 @@ int foo (int i){
 	PSHA
 	JSR	foo
 	INS
-	PULA
+	PULA			//Retrieve return value and save it on A
 
 foo:
 	PSHA
