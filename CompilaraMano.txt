@@ -33,7 +33,7 @@ bubble:
         PSHA
         PSHB
         PSHX
-        TSX              // set X to point to the top byte of the stack
+        TSX             // set X to point to the top byte of the stack
         // part_1
         TSX             // IX -> SP     Point to the top of the stack
         PULX
@@ -47,14 +47,14 @@ bubble:
 
 // part_1
         LDAA    6, X        	// 6,X is the X variable
-        CLRA                		// clear acumulator A
+        CLRA                	// clear acumulator A
         STAA    6, X
 for_X:
         LDAA    6, X
         CMPA    11, X       	// compare aagainst n
         BGE     end_for_X
         // part_2
-        TSX                 		// Point to the top of the stack
+        TSX                 	// Point to the top of the stack
         INC     6, X
         BRA     for_X
 end_for_X:
@@ -62,7 +62,7 @@ end_for_X:
 
 //part_2
         LDAA    5, X        	// 5, X is the 'y' variable
-        CLRA                		// clear acumulator A
+        CLRA                	// clear acumulator A
         STAA    5, X        	// y = 0, on the stak
 for_y:
         LDAA    5, X        	// load y
@@ -78,8 +78,8 @@ end_for_y:
 
 //part_3
         LDAB    5, X        	// B = y
-        LDX     9, X        		// X = v
-        ABX                 		// X = v + y
+        LDX     9, X        	// X = v
+        ABX                 	// X = v + y
         LDAA    0, X        	// A = v[y]
         CMPA    1, X        	// compare with next element
         BLE     end_if      	// ? <= 0
@@ -87,7 +87,7 @@ end_for_y:
         //t = v[y+1];
         TSX                     	// IX -> SP     Point to the top of the stack
         LDAB    5, X            	// B = y
-        INCB                   	// B = ++y;
+        INCB                   	  // B = ++y;
         LDX     9, X            	// X = v
         ABX                     	// X = v + y + 1
         LDAB                    	// B = v[y + 1]
@@ -175,8 +175,8 @@ insertion:
 
 // part_1
         LDAA    7, X            	// A = x
-        CLRA                   	// A = 0
-        STAA    7, X           	// x = 0
+        CLRA                   	  // A = 0
+        STAA    7, X           	  // x = 0
 for_X:
         LDAA    7, X            	// A = x
         STAA    4, X            	// m = x 
@@ -192,7 +192,7 @@ for_X:
         LDAB    7, X            	// B = x
         LDX    10, X            	// X = v
         ABX                     	// X = v + x
-        LDAB    0, X               	// B = v[x]
+        LDAB    0, X               // B = v[x]
         TSX                     	// IX -> SP     Point to the top of the stack
         STAB    5, X            	// t = v[x]
         //v[x] = v[m];
@@ -202,7 +202,7 @@ for_X:
         LDAA    0, X            	// *A = v[m] 
         TSX                     	// IX -> SP     Point to the top of the stack
         LDAB    7, X            	// B = x
-        LDX    10, X           	// X = v
+        LDX    10, X           	  // X = v
         ABX                     	// X = v + x
         STAA    0, X            	// v[x] = v[m]
         // v[m] = t;
@@ -378,13 +378,13 @@ partition:
         INS             	// dealocate t
         INS             	// dealocate i
         INS             	// dealocate p
-        LDAA    i, X    // A = i
-        STAA   13, X    // return i
+        LDAA    i, X      // A = i
+        STAA   13, X      // return i
         RST
 
 // part_2
-        LDAB   12, X		// B = hi
-        LDX     9, X           	// X = v
+        LDAB   12, X		          // B = hi
+        LDX     9, X           	  // X = v
         ABX                     	// X = v +hi
         LDAA    0, X            	// A = v[hi]
         STAA   12, X            	// p = A[hi]
@@ -420,11 +420,11 @@ partition:
 // end_part_2
 
 //part_3
-        LDAA   11, X           	// A = lo
+        LDAA   11, X           	  // A = lo
         STAA   j                	// j = lo
 for_j:
         LDAA    j               	// A = j
-        CMPA    12, X          	// j - hi
+        CMPA    12, X          	  // j - hi
         BGE     end_for_j       	// ? >= 0
         // part_4  // if (A[j] <= p)
         TSX                     	// Point to the top of the stack
@@ -579,7 +579,7 @@ TopDownSplitMerge:
 
 // part_1
         //iEnd - iBegin < 2
-        LDAA    9, X    		// A = iEnd
+        LDAA    9, X    		      // A = iEnd
         DECA                    	// A = iEnd - 1
         DECA                    	// A = iEnd - 2
         CMPA   10, X            	// iend - 2 - iBegin
@@ -668,7 +668,7 @@ TopDownSplitMerge:
         INS                     		// dealocate A
         INS                     		// dealocate iEnd
         INS                     		// dealocate iBeggin
-        INS                    		// dealocate B
+        INS                    		  // dealocate B
         INS                     		// dealocate B
 finish
 // end_part_1
@@ -763,7 +763,7 @@ ELSE:
         STAA    0, X            	// B[k] = A[i]
         // i = i + 1
         TSX                     	// IX -> SP     Point to the top of the stack
-        INC     4, X           	// j = j + 1
+        INC     4, X           	  // j = j + 1
 END_IF:
 // end_part_4
 
@@ -785,7 +785,7 @@ CopyArray:
         STAA     4, X           	// k = iBegin
 for_X:
         LDAA   10, X            	// A = k
-        CMPA    9, X           	// k - iEnd
+        CMPA    9, X           	  // k - iEnd
         BGE     end_for_X       	// >= 0 ?
         // part_6
         TSX                     	// Point to the top of the stack
