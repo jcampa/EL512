@@ -323,23 +323,22 @@ quicksort:
         LDAA     9, X   	// A = lo
         CMPA    10, X   	// lo - hi
         BGE     end_if  	// ? >= 0
-
-        //p = partition(A, lo, hi);
-        DES             	// save space for return value
-        LDAA   10, X    	// A = hi
-        PSHA            	// stack hi
-        LDAA    9, X    	// A = lo
-        PSHA            	// stack lo
-        LDD     7, X    	// D = A
-        PSHB            	// stack vector A again
-        PSHA		// stack vector A again
+//p = partition(A, lo, hi);
+        DES             	  // save space for return value
+        LDAA   10, X    	  // A = hi
+        PSHA            	  // stack hi
+        LDAA    9, X    	  // A = lo
+        PSHA            	  // stack lo
+        LDD     7, X    	  // D = A
+        PSHB            	  // stack vector A again
+        PSHA		            // stack vector A again
         JSR     partition 	//    return addres of partition -> 4, x
-        INS        		// edalocate A
-        INS        		// edalocate A
-        INS        		// edalocatelo
-        INS        		// edalocate hi
-        PULA            	// get return value
-        STAA    4, X    	// p = partition(_arg_)
+        INS        		      // edalocate A
+        INS        		      // edalocate A
+        INS        		      // edalocatelo
+        INS        		      // edalocate hi
+        PULA            	  // get return value
+        STAA    4, X      	// p = partition(_arg_)
         
         //quicksort(A, lo, p – 1);
         LDAA    4, X    	// A = p
@@ -366,7 +365,7 @@ partition:
         DES             	// p
         DES             	// i
         DES             	// t
-        PSHA		// stack A 
+        PSHA		          // stack A 
         PSHB            	// stack B
         PSHX            	// stack X
         TSX             	// IX -> SP     Point to the top of the stack
