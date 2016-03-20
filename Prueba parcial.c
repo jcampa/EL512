@@ -129,7 +129,7 @@ foo_end_for:
   |     LDAB    6, X    // B = i
   |     LDX    10, X    // X = v
   |     ABX             // X = v + i
-  |     CMPA   -2, X    //  A - v[i - 2]
+  |     CMPA   -2, X    // A - v[i - 2]
   |     BLE     foo_else
    ---> PULX            // Retrieve X
 foo_else:
