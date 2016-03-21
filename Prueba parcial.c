@@ -127,9 +127,10 @@ foo_end_for:
   |     PULX
   |     PSHX
   |     LDAB    6, X    // B = i
+  |     SUBB    #2      // B = i - 2
   |     LDX    10, X    // X = v
-  |     ABX             // X = v + i
-  |     CMPA   -2, X    // A - v[i - 2]
+  |     ABX             // X = v + i - 2
+  |     CMPA    0, X    // A - v[i - 2]
   |     BLE     foo_else
    ---> PULX            // Retrieve X
 foo_else:
