@@ -6,6 +6,7 @@
 * Date: 		20/04/2016
 * Description: 	celular automata implementation bases on the book
 * 				"A new kind of science" by stephen Wolfram
+*				for motorola 68HC11 procesor
 ******************************************************************
 
 ******************************************************************
