@@ -3,7 +3,7 @@
 ******************************************************************
 * Project name: Automata Celular
 * Author(s): 	Jose de la Campa
-* Date: 		20/04/2016
+* Date: 	20/04/2016
 * Description: 	celular automata implementation based on the book
 * 		"A new kind of science" by stephen Wolfram
 *		for motorola 68HC11 procesor
